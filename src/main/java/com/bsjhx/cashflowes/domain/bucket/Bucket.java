@@ -1,15 +1,16 @@
-package com.bsjhx.cash_flow_es.domain.bucket;
+package com.bsjhx.cashflowes.domain.bucket;
 
 import com.bsjhx.cash_flow_es.domain.Event;
 import com.bsjhx.cash_flow_es.domain.event.BucketCreatedEvent;
 import com.bsjhx.cash_flow_es.domain.event.MoneyTransferredEvent;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.UUID;
 
-
+@Getter
 public class Bucket {
-    
+
     private final UUID id;
     private final Money balance;
 
@@ -18,13 +19,13 @@ public class Bucket {
         this.balance = balance;
     }
 
-    public Bucket fromEvents(UUID id, List<Event> events) {
+    public static Bucket fromEvents(List<Event> events) {
         var bucket = new Bucket(null, null);
 
         for (Event event : events) {
             bucket = bucket.mutate(event);
         }
-        
+
         return bucket;
     }
 
@@ -34,7 +35,7 @@ public class Bucket {
         } else if (event instanceof MoneyTransferredEvent moneyTransferredEvent) {
             return new Bucket(this.id, this.balance.add(moneyTransferredEvent.getAmount()));
         }
-        
+
         throw new IllegalArgumentException("Event does not exist");
     }
 

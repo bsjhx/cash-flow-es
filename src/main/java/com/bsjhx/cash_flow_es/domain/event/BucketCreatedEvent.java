@@ -14,7 +14,7 @@ public class BucketCreatedEvent implements Event {
         this.id = UUID.randomUUID();
     }
     
-    BucketCreatedEvent of() {
+    public static BucketCreatedEvent createEvent() {
         return new BucketCreatedEvent();
     }
 }
