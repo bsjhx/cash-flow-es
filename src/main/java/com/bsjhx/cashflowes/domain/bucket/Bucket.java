@@ -1,8 +1,9 @@
 package com.bsjhx.cashflowes.domain.bucket;
 
-import com.bsjhx.cash_flow_es.domain.Event;
-import com.bsjhx.cash_flow_es.domain.event.BucketCreatedEvent;
-import com.bsjhx.cash_flow_es.domain.event.MoneyTransferredEvent;
+import com.bsjhx.cash_flow_es.domain.bucket.exception.BucketReopenedException;
+import com.bsjhx.cash_flow_es.domain.common.Event;
+import com.bsjhx.cash_flow_es.domain.bucket.event.BucketCreatedEvent;
+import com.bsjhx.cash_flow_es.domain.bucket.event.MoneyTransferredEvent;
 import lombok.Getter;
 
 import java.util.List;
@@ -30,13 +31,18 @@ public class Bucket {
     }
 
     private Bucket mutate(Event event) {
-        if (event instanceof BucketCreatedEvent bucketCreatedEvent) {
-            return new Bucket(bucketCreatedEvent.getId(), Money.of(0.0));
-        } else if (event instanceof MoneyTransferredEvent moneyTransferredEvent) {
-            return new Bucket(this.id, this.balance.add(moneyTransferredEvent.getAmount()));
+        switch (event) {
+            case BucketCreatedEvent bucketCreatedEvent -> {
+                if (this.id != null) {
+                    throw new BucketReopenedException();
+                }
+                return new Bucket(bucketCreatedEvent.getId(), Money.of(0.0));
+            }
+            case MoneyTransferredEvent moneyTransferredEvent -> {
+                return new Bucket(this.id, this.balance.add(moneyTransferredEvent.getAmount()));
+            }
+            default -> throw new IllegalStateException("Event does not exist: " + event);
         }
-
-        throw new IllegalArgumentException("Event does not exist");
     }
 
 }

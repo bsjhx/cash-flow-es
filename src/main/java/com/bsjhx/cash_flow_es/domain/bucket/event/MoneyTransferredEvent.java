@@ -1,6 +1,6 @@
-package com.bsjhx.cash_flow_es.domain.event;
+package com.bsjhx.cash_flow_es.domain.bucket.event;
 
-import com.bsjhx.cash_flow_es.domain.Event;
+import com.bsjhx.cash_flow_es.domain.common.Event;
 import com.bsjhx.cashflowes.domain.bucket.Money;
 import lombok.Getter;
 
@@ -19,7 +19,7 @@ public class MoneyTransferredEvent implements Event {
         this.amount = amount;
     }
 
-    public MoneyTransferredEvent createEvent(UUID bucketId, Money amount) {
+    public static MoneyTransferredEvent createEvent(UUID bucketId, Money amount) {
         return new MoneyTransferredEvent(UUID.randomUUID(), bucketId, amount);
     }
 }
