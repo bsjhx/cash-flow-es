@@ -2,7 +2,8 @@ package com.bsjhx.cashflowes.domain.bucket
 
 import com.bsjhx.cash_flow_es.domain.bucket.event.BucketCreatedEvent
 import com.bsjhx.cash_flow_es.domain.bucket.event.MoneyTransferredEvent
-import com.bsjhx.cash_flow_es.domain.bucket.exception.BucketReopenedException
+import com.bsjhx.cash_flow_es.domain.bucket.exception.BucketExceptionReasons
+import com.bsjhx.cash_flow_es.domain.bucket.exception.BucketMutationException
 import spock.lang.Specification
 
 class BucketSpec extends Specification {
@@ -52,6 +53,40 @@ class BucketSpec extends Specification {
             Bucket.fromEvents(events)
 
         then:
-           thrown BucketReopenedException
+            def e = thrown(BucketMutationException)
+            e.message == BucketExceptionReasons.BUCKET_ALREADY_OPENED
+    }
+
+    def "should throw exception when transferring money to not opened bucket"() {
+        given:
+            def bucketId = UUID.randomUUID()
+            def events = []
+            events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(5.0)))
+            events.add(BucketCreatedEvent.createEvent(bucketId))
+            events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(15.0)))
+            events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(60.0)))
+
+        when:
+            Bucket.fromEvents(events)
+
+        then:
+            def e = thrown(BucketMutationException)
+            e.message == BucketExceptionReasons.BUCKET_NOT_OPENED
+    }
+
+    def "should throw exception when transfer event bucket id is not matched with bucket id"() {
+        given:
+            def bucketId = UUID.randomUUID()
+            def bucketId2 = UUID.randomUUID()
+            def events = []
+            events.add(BucketCreatedEvent.createEvent(bucketId))
+            events.add(MoneyTransferredEvent.createEvent(bucketId2, Money.of(5.0)))
+
+        when:
+            Bucket.fromEvents(events)
+
+        then:
+            def e = thrown(BucketMutationException)
+            e.message == BucketExceptionReasons.BUCKET_ID_NOT_MATCHED
     }
 }
