@@ -1,10 +1,10 @@
-package com.bsjhx.cashflowes.domain.bucket;
+package com.bsjhx.cashflow.domain.bucket;
 
-import com.bsjhx.cash_flow_es.domain.bucket.exception.BucketExceptionReasons;
-import com.bsjhx.cash_flow_es.domain.bucket.exception.BucketMutationException;
-import com.bsjhx.cash_flow_es.domain.common.Event;
-import com.bsjhx.cash_flow_es.domain.bucket.event.BucketCreatedEvent;
-import com.bsjhx.cash_flow_es.domain.bucket.event.MoneyTransferredEvent;
+import com.bsjhx.cashflow.domain.bucket.exception.BucketExceptionReasons;
+import com.bsjhx.cashflow.domain.bucket.exception.BucketMutationException;
+import com.bsjhx.cashflow.domain.common.Event;
+import com.bsjhx.cashflow.domain.bucket.event.BucketCreatedEvent;
+import com.bsjhx.cashflow.domain.bucket.event.MoneyTransferredEvent;
 import lombok.Getter;
 
 import java.util.List;

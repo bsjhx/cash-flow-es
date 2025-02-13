@@ -1,4 +1,4 @@
-package com.bsjhx.cash_flow_es.domain.bucket.exception;
+package com.bsjhx.cashflow.domain.bucket.exception;
 
 public class BucketExceptionReasons {
     

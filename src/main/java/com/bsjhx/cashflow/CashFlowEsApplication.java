@@ -1,4 +1,4 @@
-package com.bsjhx.cash_flow_es;
+package com.bsjhx.cashflow;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

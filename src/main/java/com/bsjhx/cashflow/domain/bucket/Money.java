@@ -1,4 +1,4 @@
-package com.bsjhx.cashflowes.domain.bucket;
+package com.bsjhx.cashflow.domain.bucket;
 
 import lombok.Getter;
 

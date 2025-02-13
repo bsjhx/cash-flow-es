@@ -1,6 +1,6 @@
-package com.bsjhx.cash_flow_es.domain.bucket.exception;
+package com.bsjhx.cashflow.domain.bucket.exception;
 
-import com.bsjhx.cash_flow_es.domain.common.DomainException;
+import com.bsjhx.cashflow.domain.common.DomainException;
 
 public class BucketMutationException extends DomainException {
     

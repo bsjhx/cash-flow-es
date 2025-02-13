@@ -1,7 +1,7 @@
-package com.bsjhx.cash_flow_es.domain.bucket.event;
+package com.bsjhx.cashflow.domain.bucket.event;
 
-import com.bsjhx.cash_flow_es.domain.common.Event;
-import com.bsjhx.cashflowes.domain.bucket.Money;
+import com.bsjhx.cashflow.domain.common.Event;
+import com.bsjhx.cashflow.domain.bucket.Money;
 import lombok.Getter;
 
 import java.util.UUID;

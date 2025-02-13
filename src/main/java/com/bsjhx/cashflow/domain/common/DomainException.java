@@ -1,4 +1,4 @@
-package com.bsjhx.cash_flow_es.domain.common;
+package com.bsjhx.cashflow.domain.common;
 
 public abstract class DomainException extends RuntimeException {
   
