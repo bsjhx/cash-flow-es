@@ -10,7 +10,7 @@ public class BucketCreatedEvent implements Event {
 
     private final UUID id;
 
-    public BucketCreatedEvent(UUID bucketId) {
+    private BucketCreatedEvent(UUID bucketId) {
         this.id = bucketId;
     }
     

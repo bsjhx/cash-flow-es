@@ -13,7 +13,7 @@ public class Money {
         this.amount = amount;
     }
 
-    static Money of(Double amount) {
+    public static Money of(Double amount) {
         return new Money(amount);
     }
 
