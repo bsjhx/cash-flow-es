@@ -2,11 +2,13 @@ package com.bsjhx.cashflow.domain.bucket.event;
 
 import com.bsjhx.cashflow.domain.common.Event;
 import com.bsjhx.cashflow.domain.bucket.Money;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
+@EqualsAndHashCode
 public class MoneyTransferredEvent implements Event {
     
     private final UUID id;

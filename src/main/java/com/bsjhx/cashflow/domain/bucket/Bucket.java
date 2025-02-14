@@ -37,7 +37,7 @@ public class Bucket {
                 if (this.id != null) {
                     throw new BucketMutationException(BucketExceptionReasons.BUCKET_ALREADY_OPENED);
                 }
-                return new Bucket(bucketCreatedEvent.getId(), Money.of(0.0));
+                return new Bucket(bucketCreatedEvent.getBucketId(), Money.of(0.0));
             }
             case MoneyTransferredEvent moneyTransferredEvent -> {
                 if (this.id == null) {

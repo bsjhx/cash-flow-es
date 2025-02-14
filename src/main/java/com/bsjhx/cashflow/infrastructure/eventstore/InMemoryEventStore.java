@@ -26,6 +26,6 @@ public class InMemoryEventStore implements EventStore {
 
     @Override
     public void saveEvents(UUID streamId, List<Event> events) {
-        this.eventsMap.putIfAbsent(streamId, events);
+        this.eventsMap.computeIfAbsent(streamId, k -> new ArrayList<>()).addAll(events);
     }
 }
