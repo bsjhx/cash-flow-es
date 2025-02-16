@@ -34,8 +34,8 @@ class OpenBucketCommandHandlerSpec extends Specification {
             1 * eventStore.loadEvents(bucketId)
             1 * eventStore.saveEvents(bucketId, _)
 
-            eventStore.loadEvents(bucketId).isPresent()
             def eventsMaybe = eventStore.loadEvents(bucketId)
+            eventsMaybe.isPresent()
             def events = eventsMaybe.get()
             events.size() == 1
             def event = (BucketCreatedEvent) events.getFirst()
