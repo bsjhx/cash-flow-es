@@ -1,0 +1,10 @@
+###
+POST {{api_url}}/bucket/create
+
+> {%
+    client.global.set("bucketId", response.body.bucketId)
+ %}
+
+###
+GET {{api_url}}/bucket/all-events/{{bucketId}}
+Accept: application/json
