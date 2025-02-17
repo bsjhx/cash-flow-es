@@ -1,9 +1,11 @@
 package com.bsjhx.cashflow.adapters.inbound.rest;
 
-import com.bsjhx.cashflow.adapters.inbound.rest.response.BucketCreatedResponse;
+import com.bsjhx.cashflow.adapters.inbound.rest.request.TransferMoneyRequest;
+import com.bsjhx.cashflow.adapters.inbound.rest.response.BucketIdResponse;
 import com.bsjhx.cashflow.adapters.outbound.EventStore;
-import com.bsjhx.cashflow.application.bucket.command.BucketCommands;
 import com.bsjhx.cashflow.application.bucket.command.BucketCommands.OpenBucketCommand;
+import com.bsjhx.cashflow.application.bucket.command.BucketCommands.TransferMoneyCommand;
+import com.bsjhx.cashflow.application.bucket.command.MoneyTransferCommandHandler;
 import com.bsjhx.cashflow.application.bucket.command.OpenBucketCommandHandler;
 import com.bsjhx.cashflow.domain.common.Event;
 import lombok.AllArgsConstructor;
@@ -18,14 +20,23 @@ import java.util.UUID;
 public class BucketController {
     
     private final OpenBucketCommandHandler openBucketCommandHandler;
+    private final MoneyTransferCommandHandler moneyTransferCommandHandler;
     private final EventStore eventStore;
     
     @PostMapping("/create")
-    public BucketCreatedResponse createBucket() {
+    public BucketIdResponse createBucket() {
         var createNewBucketCommand = new OpenBucketCommand(UUID.randomUUID());
         openBucketCommandHandler.handle(createNewBucketCommand);
         
-        return new BucketCreatedResponse(createNewBucketCommand.bucketId());
+        return new BucketIdResponse(createNewBucketCommand.bucketId());
+    }
+
+    @PostMapping("/transfer")
+    public BucketIdResponse transferCash(@RequestBody TransferMoneyRequest request) {
+        var transferMoneyCommand = new TransferMoneyCommand(request.bucketId(), request.amount());
+        moneyTransferCommandHandler.handle(transferMoneyCommand);
+
+        return new BucketIdResponse(transferMoneyCommand.bucketId());
     }
     
     @GetMapping("/all-events/{bucketId}")

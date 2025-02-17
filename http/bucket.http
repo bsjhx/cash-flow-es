@@ -1,4 +1,3 @@
-###
 POST {{api_url}}/bucket/create
 
 > {%
@@ -8,3 +7,12 @@ POST {{api_url}}/bucket/create
 ###
 GET {{api_url}}/bucket/all-events/{{bucketId}}
 Accept: application/json
+
+###
+POST {{api_url}}/bucket/transfer
+Content-Type: application/json
+
+{
+  "bucketId": "{{bucketId}}",
+  "amount": 100.0
+}
