@@ -14,9 +14,7 @@ public class CurrentBalanceProjection {
 
         for (Event event : events) {
             if (Objects.requireNonNull(event) instanceof MoneyTransferredEvent moneyTransferredEvent) {
-                currentBalance.add(moneyTransferredEvent.getAmount());
-            } else {
-                throw new IllegalStateException("Unexpected value: " + event);
+                currentBalance = currentBalance.add(moneyTransferredEvent.getAmount());
             }
         }
 
