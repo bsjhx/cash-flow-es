@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
   "bucketId": "{{bucketId}}",
-  "amount": -30.68
+  "amount": -719.32
 }
 
 ###
