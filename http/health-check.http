@@ -1,4 +1,4 @@
-GET {{api_url}}/v1/health-check
+GET {{api_url}}/api/v1/health-check
 Accept: application/json
 
 ###

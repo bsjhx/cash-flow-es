@@ -1,22 +1,22 @@
-POST {{api_url}}/bucket/create
+POST {{api_url}}/api/v1/bucket/create
 
 > {%
     client.global.set("bucketId", response.body.bucketId)
  %}
 
 ###
-GET {{api_url}}/bucket/all-events/{{bucketId}}
+GET {{api_url}}/api/v1/bucket/all-events/{{bucketId}}
 Accept: application/json
 
 ###
-POST {{api_url}}/bucket/transfer
+POST {{api_url}}/api/v1/bucket/transfer
 Content-Type: application/json
 
 {
   "bucketId": "{{bucketId}}",
-  "amount": -719.32
+  "amount": 15000.0
 }
 
 ###
-GET {{api_url}}/bucket/current-balance/{{bucketId}}
+GET {{api_url}}/api/v1/bucket/current-balance/{{bucketId}}
 Accept: application/json
