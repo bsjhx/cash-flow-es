@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/bucket")
+@RequestMapping("/v1/bucket")
 @AllArgsConstructor
 public class BucketController {
     
