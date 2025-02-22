@@ -1,4 +1,4 @@
-package com.bsjhx.cashflow.domain.bucket.event;
+package com.bsjhx.cashflow.domain.tracksheet.event;
 
 import com.bsjhx.cashflow.domain.common.Event;
 import lombok.EqualsAndHashCode;

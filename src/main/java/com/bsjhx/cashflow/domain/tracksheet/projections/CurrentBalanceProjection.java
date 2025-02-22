@@ -1,7 +1,7 @@
-package com.bsjhx.cashflow.domain.bucket.projections;
+package com.bsjhx.cashflow.domain.tracksheet.projections;
 
-import com.bsjhx.cashflow.domain.bucket.Money;
-import com.bsjhx.cashflow.domain.bucket.event.MoneyTransferredEvent;
+import com.bsjhx.cashflow.domain.tracksheet.Money;
+import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent;
 import com.bsjhx.cashflow.domain.common.Event;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package com.bsjhx.cashflow.application.bucket.command;
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore;
 import com.bsjhx.cashflow.application.bucket.command.BucketCommands.TransferMoneyCommand;
-import com.bsjhx.cashflow.domain.bucket.Bucket;
+import com.bsjhx.cashflow.domain.tracksheet.Bucket;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

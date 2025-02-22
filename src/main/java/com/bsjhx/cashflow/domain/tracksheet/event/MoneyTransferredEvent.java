@@ -1,7 +1,7 @@
-package com.bsjhx.cashflow.domain.bucket.event;
+package com.bsjhx.cashflow.domain.tracksheet.event;
 
 import com.bsjhx.cashflow.domain.common.Event;
-import com.bsjhx.cashflow.domain.bucket.Money;
+import com.bsjhx.cashflow.domain.tracksheet.Money;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

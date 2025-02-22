@@ -1,11 +1,11 @@
-package com.bsjhx.cashflowes.domain.bucket
+package com.bsjhx.cashflowes.domain.tracksheet
 
-import com.bsjhx.cashflow.domain.bucket.Bucket
-import com.bsjhx.cashflow.domain.bucket.Money
-import com.bsjhx.cashflow.domain.bucket.event.BucketCreatedEvent
-import com.bsjhx.cashflow.domain.bucket.event.MoneyTransferredEvent
-import com.bsjhx.cashflow.domain.bucket.exception.BucketExceptionReasons
-import com.bsjhx.cashflow.domain.bucket.exception.BucketMutationException
+import com.bsjhx.cashflow.domain.tracksheet.Bucket
+import com.bsjhx.cashflow.domain.tracksheet.Money
+import com.bsjhx.cashflow.domain.tracksheet.event.BucketCreatedEvent
+import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent
+import com.bsjhx.cashflow.domain.tracksheet.exception.BucketExceptionReasons
+import com.bsjhx.cashflow.domain.tracksheet.exception.BucketMutationException
 import spock.lang.Specification
 
 class BucketSpec extends Specification {

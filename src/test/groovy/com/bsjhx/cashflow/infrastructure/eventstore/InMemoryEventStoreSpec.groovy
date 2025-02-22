@@ -1,9 +1,9 @@
 package com.bsjhx.cashflow.infrastructure.eventstore
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
-import com.bsjhx.cashflow.domain.bucket.Money
-import com.bsjhx.cashflow.domain.bucket.event.BucketCreatedEvent
-import com.bsjhx.cashflow.domain.bucket.event.MoneyTransferredEvent
+import com.bsjhx.cashflow.domain.tracksheet.Money
+import com.bsjhx.cashflow.domain.tracksheet.event.BucketCreatedEvent
+import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
