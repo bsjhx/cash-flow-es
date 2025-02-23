@@ -19,12 +19,12 @@ public class TrackSheet {
 
     private final List<Event> uncommittedEvents = new ArrayList<>();
 
-    private TrackSheet(UUID id, Money balance) {
+    private TrackSheet(final UUID id, final Money balance) {
         this.id = id;
         this.balance = balance;
     }
 
-    public static TrackSheet fromEvents(List<Event> events) {
+    public static TrackSheet fromEvents(final List<Event> events) {
         var trackSheet = new TrackSheet(null, null);
 
         for (Event event : events) {
@@ -34,7 +34,7 @@ public class TrackSheet {
         return trackSheet;
     }
 
-    public static TrackSheet createNew(UUID trackSheetId, List<Event> events) {
+    public static TrackSheet createNew(final UUID trackSheetId, final List<Event> events) {
         var trackSheet = fromEvents(events);
         var event = TrackSheetCreatedEvent.createEvent(trackSheetId);
         trackSheet = trackSheet.mutate(event);
@@ -43,7 +43,7 @@ public class TrackSheet {
         return trackSheet;
     }
 
-    private TrackSheet mutate(Event event) {
+    private TrackSheet mutate(final Event event) {
         switch (event) {
             case TrackSheetCreatedEvent trackSheetCreatedEvent -> {
                 if (this.id != null) {
@@ -64,7 +64,7 @@ public class TrackSheet {
         }
     }
 
-    public void transfer(Double amount) {
+    public void transfer(final Double amount) {
         var moneyAmount = Money.of(amount);
         var event = MoneyTransferredEvent.createEvent(this.id, moneyAmount);
         mutate(event);

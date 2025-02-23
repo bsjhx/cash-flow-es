@@ -13,12 +13,12 @@ public class TrackSheetCreatedEvent implements Event {
     private final UUID id;
     private final UUID trackSheetId;
 
-    private TrackSheetCreatedEvent(UUID trackSheetId) {
+    private TrackSheetCreatedEvent(final UUID trackSheetId) {
         this.id = UUID.randomUUID();
         this.trackSheetId = trackSheetId;
     }
     
-    public static TrackSheetCreatedEvent createEvent(UUID trackSheetId) {
+    public static TrackSheetCreatedEvent createEvent(final UUID trackSheetId) {
         return new TrackSheetCreatedEvent(trackSheetId);
     }
 }

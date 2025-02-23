@@ -9,11 +9,11 @@ public class Money {
     
     private final Double amount;
 
-    private Money(Double amount) {
+    private Money(final Double amount) {
         this.amount = amount;
     }
 
-    public static Money of(Double amount) {
+    public static Money of(final Double amount) {
         return new Money(amount);
     }
 
@@ -21,7 +21,7 @@ public class Money {
         return Money.of(0.0);
     }
 
-    public Money add(Money money) {
+    public Money add(final Money money) {
         return new Money(this.amount + money.amount);
     }
 

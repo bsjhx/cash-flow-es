@@ -4,7 +4,7 @@ import com.bsjhx.cashflow.domain.common.DomainException;
 
 public class TrackSheetMutationException extends DomainException {
     
-    public TrackSheetMutationException(String reason) {
+    public TrackSheetMutationException(final String reason) {
         super(reason);
     }
 }

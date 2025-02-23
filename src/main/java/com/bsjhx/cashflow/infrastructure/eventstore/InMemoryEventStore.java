@@ -16,7 +16,7 @@ public class InMemoryEventStore implements EventStore {
     }
 
     @Override
-    public Optional<List<Event>> loadEvents(UUID streamId) {
+    public Optional<List<Event>> loadEvents(final UUID streamId) {
         if (eventsMap.containsKey(streamId)) {
             return Optional.of(eventsMap.get(streamId));
         } else {
@@ -25,7 +25,7 @@ public class InMemoryEventStore implements EventStore {
     }
 
     @Override
-    public void saveEvents(UUID streamId, List<Event> events) {
+    public void saveEvents(final UUID streamId, final List<Event> events) {
         this.eventsMap.computeIfAbsent(streamId, k -> new ArrayList<>()).addAll(events);
     }
 }

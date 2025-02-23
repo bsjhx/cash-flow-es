@@ -14,7 +14,7 @@ public class OpenTrackSheetCommandHandler {
 
     private final EventStore eventStore;
 
-    public void handle(OpenTrackSheetCommand openTrackSheetCommand) {
+    public void handle(final OpenTrackSheetCommand openTrackSheetCommand) {
         var pastEvents = eventStore.loadEvents(openTrackSheetCommand.trackSheetId()).orElse(List.of());
         var newTrackSheet = TrackSheet.createNew(openTrackSheetCommand.trackSheetId(), pastEvents);
         

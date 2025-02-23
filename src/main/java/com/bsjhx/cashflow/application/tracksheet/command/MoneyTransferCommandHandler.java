@@ -12,7 +12,7 @@ public class MoneyTransferCommandHandler {
 
     private final EventStore eventStore;
 
-    public void handle(TransferMoneyCommand transferMoneyCommand) {
+    public void handle(final TransferMoneyCommand transferMoneyCommand) {
         var pastEvents = eventStore.loadEvents(transferMoneyCommand.trackSheetId())
                 .orElseThrow(() -> new IllegalArgumentException("Track sheet not found"));
 
