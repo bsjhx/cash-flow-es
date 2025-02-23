@@ -1,9 +1,9 @@
 package com.bsjhx.cashflow.infrastructure.eventstore
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
-import com.bsjhx.cashflow.domain.bucket.Money
-import com.bsjhx.cashflow.domain.bucket.event.BucketCreatedEvent
-import com.bsjhx.cashflow.domain.bucket.event.MoneyTransferredEvent
+import com.bsjhx.cashflow.domain.tracksheet.Money
+import com.bsjhx.cashflow.domain.tracksheet.event.TrackSheetCreatedEvent
+import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
@@ -12,7 +12,7 @@ import spock.lang.Specification
 class InMemoryEventStoreSpec extends Specification {
 
     @Autowired
-    private EventStore eventStore;
+    private EventStore eventStore
 
     def "should return empty if no events added"() {
         when:
@@ -24,88 +24,88 @@ class InMemoryEventStoreSpec extends Specification {
 
     def "should add events and then read them"() {
         given:
-        def bucketId = UUID.randomUUID()
+        def trackSheetId = UUID.randomUUID()
         def events = [
-                BucketCreatedEvent.createEvent(bucketId),
-                MoneyTransferredEvent.createEvent(bucketId, Money.of(10.0))
+                TrackSheetCreatedEvent.createEvent(trackSheetId),
+                MoneyTransferredEvent.createEvent(trackSheetId, Money.of(10.0))
         ]
 
         when:
-        eventStore.saveEvents(bucketId, events)
+        eventStore.saveEvents(trackSheetId, events)
 
         then:
-        def result = eventStore.loadEvents(bucketId)
+        def result = eventStore.loadEvents(trackSheetId)
         result.isPresent()
         2 == result.get().size()
     }
 
     def "should add events few times and keep previous one"() {
         given:
-        def bucketId = UUID.randomUUID()
+        def trackSheetId = UUID.randomUUID()
         def events = [
-                BucketCreatedEvent.createEvent(bucketId),
-                MoneyTransferredEvent.createEvent(bucketId, Money.of(10.0))
+                TrackSheetCreatedEvent.createEvent(trackSheetId),
+                MoneyTransferredEvent.createEvent(trackSheetId, Money.of(10.0))
         ]
 
         when:
-        eventStore.saveEvents(bucketId, events)
+        eventStore.saveEvents(trackSheetId, events)
 
         then:
-        def result = eventStore.loadEvents(bucketId)
+        def result = eventStore.loadEvents(trackSheetId)
         result.isPresent()
         2 == result.get().size()
 
         when:
         def events2 = [
-                MoneyTransferredEvent.createEvent(bucketId, Money.of(20.0)),
+                MoneyTransferredEvent.createEvent(trackSheetId, Money.of(20.0)),
         ]
-        eventStore.saveEvents(bucketId, events2)
+        eventStore.saveEvents(trackSheetId, events2)
 
         then:
-        def result2 = eventStore.loadEvents(bucketId)
+        def result2 = eventStore.loadEvents(trackSheetId)
         result2.isPresent()
         3 == result2.get().size()
     }
 
     def "should add events for multiple streams"() {
         given:
-        def bucketId = UUID.randomUUID()
-        def bucketId1 = UUID.randomUUID()
-        def bucketId2 = UUID.randomUUID()
+        def trackSheetId = UUID.randomUUID()
+        def trackSheetId1 = UUID.randomUUID()
+        def trackSheetId2 = UUID.randomUUID()
 
         def events = [
-                BucketCreatedEvent.createEvent(bucketId),
-                MoneyTransferredEvent.createEvent(bucketId, Money.of(10.0))
+                TrackSheetCreatedEvent.createEvent(trackSheetId),
+                MoneyTransferredEvent.createEvent(trackSheetId, Money.of(10.0))
         ]
 
         def events1 = [
-                BucketCreatedEvent.createEvent(bucketId1),
-                MoneyTransferredEvent.createEvent(bucketId1, Money.of(15.0)),
-                MoneyTransferredEvent.createEvent(bucketId1, Money.of(30.0)),
+                TrackSheetCreatedEvent.createEvent(trackSheetId1),
+                MoneyTransferredEvent.createEvent(trackSheetId1, Money.of(15.0)),
+                MoneyTransferredEvent.createEvent(trackSheetId1, Money.of(30.0)),
         ]
 
         def events2 = [
-                BucketCreatedEvent.createEvent(bucketId2),
-                MoneyTransferredEvent.createEvent(bucketId2, Money.of(20.0)),
-                MoneyTransferredEvent.createEvent(bucketId2, Money.of(40.0)),
-                MoneyTransferredEvent.createEvent(bucketId2, Money.of(60.0)),
+                TrackSheetCreatedEvent.createEvent(trackSheetId2),
+                MoneyTransferredEvent.createEvent(trackSheetId2, Money.of(20.0)),
+                MoneyTransferredEvent.createEvent(trackSheetId2, Money.of(40.0)),
+                MoneyTransferredEvent.createEvent(trackSheetId2, Money.of(60.0)),
         ]
 
         when:
-        eventStore.saveEvents(bucketId, events)
-        eventStore.saveEvents(bucketId1, events1)
-        eventStore.saveEvents(bucketId2, events2)
+        eventStore.saveEvents(trackSheetId, events)
+        eventStore.saveEvents(trackSheetId1, events1)
+        eventStore.saveEvents(trackSheetId2, events2)
 
         then:
-        def result = eventStore.loadEvents(bucketId)
+        def result = eventStore.loadEvents(trackSheetId)
         result.isPresent()
         2 == result.get().size()
 
-        def result1 = eventStore.loadEvents(bucketId1)
+        def result1 = eventStore.loadEvents(trackSheetId1)
         result1.isPresent()
         3 == result1.get().size()
 
-        def result2 = eventStore.loadEvents(bucketId2)
+        def result2 = eventStore.loadEvents(trackSheetId2)
         result2.isPresent()
         4 == result2.get().size()
     }

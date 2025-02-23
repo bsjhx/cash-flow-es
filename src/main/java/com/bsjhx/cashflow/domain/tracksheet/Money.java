@@ -1,9 +1,7 @@
-package com.bsjhx.cashflow.domain.bucket;
+package com.bsjhx.cashflow.domain.tracksheet;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.Objects;
 
 @Getter
 @EqualsAndHashCode

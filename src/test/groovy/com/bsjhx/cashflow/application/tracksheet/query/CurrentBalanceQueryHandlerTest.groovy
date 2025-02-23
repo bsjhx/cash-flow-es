@@ -1,8 +1,8 @@
-package com.bsjhx.cashflow.application.bucket.query
+package com.bsjhx.cashflow.application.tracksheet.query
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
-import com.bsjhx.cashflow.domain.bucket.Money
-import com.bsjhx.cashflow.domain.bucket.event.MoneyTransferredEvent
+import com.bsjhx.cashflow.domain.tracksheet.Money
+import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
@@ -20,14 +20,14 @@ class CurrentBalanceQueryHandlerTest extends Specification {
     
     def "should return calculated balance"() {
         given:
-            def bucketId = UUID.randomUUID()            
-            eventStore.saveEvents(bucketId, [
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(50.0)),
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(-25.0)),
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(100.0)),
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(75.0)),
+            def trackSheetId = UUID.randomUUID()            
+            eventStore.saveEvents(trackSheetId, [
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(50.0)),
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(-25.0)),
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(100.0)),
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(75.0)),
             ])
-        def query = new CurrentBalanceQuery(bucketId)
+        def query = new CurrentBalanceQuery(trackSheetId)
         
         when:
             def actual = balanceQueryHandler.getCurrentBalance(query)
