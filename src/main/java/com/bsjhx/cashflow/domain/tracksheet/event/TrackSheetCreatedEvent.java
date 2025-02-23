@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
-public class TrackSheetCreatedEvent implements Event {
+public final class TrackSheetCreatedEvent implements Event {
 
     private final UUID id;
     private final UUID trackSheetId;

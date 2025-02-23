@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
-public class MoneyTransferredEvent implements Event {
+public final class MoneyTransferredEvent implements Event {
     
     private final UUID id;
     private final UUID trackSheetId;

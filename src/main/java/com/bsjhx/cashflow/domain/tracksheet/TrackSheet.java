@@ -51,6 +51,10 @@ public class TrackSheet {
                 }
                 return new TrackSheet(trackSheetCreatedEvent.getTrackSheetId(), Money.of(0.0));
             }
+            
+            
+            
+            
             case MoneyTransferredEvent moneyTransferredEvent -> {
                 if (this.id == null) {
                     throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_NOT_OPENED);
@@ -62,7 +66,7 @@ public class TrackSheet {
             }
             default -> throw new IllegalStateException("Event does not exist: " + event);
         }
-    }
+    }      
 
     public void transfer(final Double amount) {
         var moneyAmount = Money.of(amount);
