@@ -3,12 +3,12 @@ package com.bsjhx.cashflow.adapters.inbound.rest;
 import com.bsjhx.cashflow.adapters.inbound.rest.request.TransferMoneyRequest;
 import com.bsjhx.cashflow.adapters.inbound.rest.response.BucketIdResponse;
 import com.bsjhx.cashflow.adapters.outbound.EventStore;
-import com.bsjhx.cashflow.application.bucket.command.BucketCommands.OpenBucketCommand;
-import com.bsjhx.cashflow.application.bucket.command.BucketCommands.TransferMoneyCommand;
-import com.bsjhx.cashflow.application.bucket.command.MoneyTransferCommandHandler;
-import com.bsjhx.cashflow.application.bucket.command.OpenBucketCommandHandler;
-import com.bsjhx.cashflow.application.bucket.query.CurrentBalanceQuery;
-import com.bsjhx.cashflow.application.bucket.query.CurrentBalanceQueryHandler;
+import com.bsjhx.cashflow.application.tracksheet.command.TrackSheetCommands.OpenTrackSheetCommand;
+import com.bsjhx.cashflow.application.tracksheet.command.TrackSheetCommands.TransferMoneyCommand;
+import com.bsjhx.cashflow.application.tracksheet.command.MoneyTransferCommandHandler;
+import com.bsjhx.cashflow.application.tracksheet.command.OpenBucketCommandHandler;
+import com.bsjhx.cashflow.application.tracksheet.query.CurrentBalanceQuery;
+import com.bsjhx.cashflow.application.tracksheet.query.CurrentBalanceQueryHandler;
 import com.bsjhx.cashflow.domain.tracksheet.Money;
 import com.bsjhx.cashflow.domain.common.Event;
 import lombok.AllArgsConstructor;
@@ -29,10 +29,10 @@ public class BucketController {
     
     @PostMapping("/create")
     public BucketIdResponse createBucket() {
-        var createNewBucketCommand = new OpenBucketCommand(UUID.randomUUID());
+        var createNewBucketCommand = new OpenTrackSheetCommand(UUID.randomUUID());
         openBucketCommandHandler.handle(createNewBucketCommand);
         
-        return new BucketIdResponse(createNewBucketCommand.bucketId());
+        return new BucketIdResponse(createNewBucketCommand.trackSheetId());
     }
 
     @PostMapping("/transfer")
@@ -40,7 +40,7 @@ public class BucketController {
         var transferMoneyCommand = new TransferMoneyCommand(request.bucketId(), request.amount());
         moneyTransferCommandHandler.handle(transferMoneyCommand);
 
-        return new BucketIdResponse(transferMoneyCommand.bucketId());
+        return new BucketIdResponse(transferMoneyCommand.trackSheetId());
     }
     
     @GetMapping("/all-events/{bucketId}")

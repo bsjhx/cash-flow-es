@@ -1,4 +1,4 @@
-package com.bsjhx.cashflow.application.bucket.command
+package com.bsjhx.cashflow.application.tracksheet.command
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
 import com.bsjhx.cashflow.domain.tracksheet.event.TrackSheetCreatedEvent
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static com.bsjhx.cashflow.application.bucket.command.BucketCommands.*
+import static TrackSheetCommands.*
 
 @SpringBootTest
 class OpenBucketCommandHandlerSpec extends Specification {
@@ -25,7 +25,7 @@ class OpenBucketCommandHandlerSpec extends Specification {
     def "should create new bucket "() {
         given:
             def bucketId = UUID.randomUUID()
-            def command = new OpenBucketCommand(bucketId)
+            def command = new OpenTrackSheetCommand(bucketId)
 
         when:
             commandHandler.handle(command)
@@ -45,7 +45,7 @@ class OpenBucketCommandHandlerSpec extends Specification {
     def "should thrown exception trying to create bucket with same id"() {
         given:
             def bucketId = UUID.randomUUID()
-            def command = new OpenBucketCommand(bucketId)
+            def command = new OpenTrackSheetCommand(bucketId)
 
         when:
             commandHandler.handle(command)

@@ -1,4 +1,4 @@
-package com.bsjhx.cashflow.application.bucket.query;
+package com.bsjhx.cashflow.application.tracksheet.query;
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore;
 import com.bsjhx.cashflow.domain.tracksheet.Money;

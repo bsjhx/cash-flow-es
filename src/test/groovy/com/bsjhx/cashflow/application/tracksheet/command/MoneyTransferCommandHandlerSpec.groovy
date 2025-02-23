@@ -1,4 +1,4 @@
-package com.bsjhx.cashflow.application.bucket.command
+package com.bsjhx.cashflow.application.tracksheet.command
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
 import com.bsjhx.cashflow.domain.tracksheet.TrackSheet
@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static com.bsjhx.cashflow.application.bucket.command.BucketCommands.*
+import static TrackSheetCommands.*
 
 @SpringBootTest
 class MoneyTransferCommandHandlerSpec extends Specification {
@@ -27,7 +27,7 @@ class MoneyTransferCommandHandlerSpec extends Specification {
     def "should transfer money"() {
         given:
             def bucketId = UUID.randomUUID()
-            def openBucketCommand = new OpenBucketCommand(bucketId)
+            def openBucketCommand = new OpenTrackSheetCommand(bucketId)
             openBucketCommandHandler.handle(openBucketCommand)
 
         when:
