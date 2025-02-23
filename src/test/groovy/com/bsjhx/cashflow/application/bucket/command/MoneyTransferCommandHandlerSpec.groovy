@@ -1,7 +1,7 @@
 package com.bsjhx.cashflow.application.bucket.command
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
-import com.bsjhx.cashflow.domain.tracksheet.Bucket
+import com.bsjhx.cashflow.domain.tracksheet.TrackSheet
 import com.bsjhx.cashflow.domain.tracksheet.Money
 import org.spockframework.spring.SpringSpy
 import org.springframework.beans.factory.annotation.Autowired
@@ -44,7 +44,7 @@ class MoneyTransferCommandHandlerSpec extends Specification {
             eventsMaybe.isPresent()
             def events = eventsMaybe.get()
             events.size() == 5
-            def actual = Bucket.fromEvents(events)
+            def actual = TrackSheet.fromEvents(events)
             Money.of(5.0 + 15.0 + 70.0 - 50.0) == actual.balance
     }
 

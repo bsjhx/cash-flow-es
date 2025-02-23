@@ -1,7 +1,7 @@
 package com.bsjhx.cashflow.application.bucket.command
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
-import com.bsjhx.cashflow.domain.tracksheet.event.BucketCreatedEvent
+import com.bsjhx.cashflow.domain.tracksheet.event.TrackSheetCreatedEvent
 import com.bsjhx.cashflow.domain.tracksheet.exception.BucketExceptionReasons
 import com.bsjhx.cashflow.domain.tracksheet.exception.BucketMutationException
 import org.spockframework.spring.SpringSpy
@@ -38,8 +38,8 @@ class OpenBucketCommandHandlerSpec extends Specification {
             eventsMaybe.isPresent()
             def events = eventsMaybe.get()
             events.size() == 1
-            def event = (BucketCreatedEvent) events.getFirst()
-            event.bucketId == bucketId
+            def event = (TrackSheetCreatedEvent) events.getFirst()
+            event.trackSheetId == bucketId
     }
 
     def "should thrown exception trying to create bucket with same id"() {
@@ -62,7 +62,7 @@ class OpenBucketCommandHandlerSpec extends Specification {
             def eventsMaybe = eventStore.loadEvents(bucketId)
             def events = eventsMaybe.get()
             events.size() == 1
-            def event = (BucketCreatedEvent) events.getFirst()
-            event.bucketId == bucketId
+            def event = (TrackSheetCreatedEvent) events.getFirst()
+            event.trackSheetId == bucketId
     }
 }

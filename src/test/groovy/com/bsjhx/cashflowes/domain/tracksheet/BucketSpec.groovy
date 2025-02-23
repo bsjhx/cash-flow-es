@@ -1,8 +1,8 @@
 package com.bsjhx.cashflowes.domain.tracksheet
 
-import com.bsjhx.cashflow.domain.tracksheet.Bucket
+import com.bsjhx.cashflow.domain.tracksheet.TrackSheet
 import com.bsjhx.cashflow.domain.tracksheet.Money
-import com.bsjhx.cashflow.domain.tracksheet.event.BucketCreatedEvent
+import com.bsjhx.cashflow.domain.tracksheet.event.TrackSheetCreatedEvent
 import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent
 import com.bsjhx.cashflow.domain.tracksheet.exception.BucketExceptionReasons
 import com.bsjhx.cashflow.domain.tracksheet.exception.BucketMutationException
@@ -13,10 +13,10 @@ class BucketSpec extends Specification {
     def "should init simple bucket"() {
         given:
             def bucketId = UUID.randomUUID()
-            def event = BucketCreatedEvent.createEvent(bucketId)
+            def event = TrackSheetCreatedEvent.createEvent(bucketId)
 
         when:
-            def bucket = Bucket.fromEvents([event])
+            def bucket = TrackSheet.fromEvents([event])
 
         then:
             bucket.id == bucketId
@@ -27,14 +27,14 @@ class BucketSpec extends Specification {
         given:
             def bucketId = UUID.randomUUID()
             def events = []
-            events.add(BucketCreatedEvent.createEvent(bucketId))
+            events.add(TrackSheetCreatedEvent.createEvent(bucketId))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(5.0)))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(15.0)))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(60.0)))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(-30.0)))
 
         when:
-            def bucket = Bucket.fromEvents(events)
+            def bucket = TrackSheet.fromEvents(events)
 
         then:
             bucket.id == bucketId
@@ -45,14 +45,14 @@ class BucketSpec extends Specification {
         given:
             def bucketId = UUID.randomUUID()
             def events = []
-            events.add(BucketCreatedEvent.createEvent(bucketId))
+            events.add(TrackSheetCreatedEvent.createEvent(bucketId))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(5.0)))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(15.0)))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(60.0)))
-            events.add(BucketCreatedEvent.createEvent(bucketId))
+            events.add(TrackSheetCreatedEvent.createEvent(bucketId))
 
         when:
-            Bucket.fromEvents(events)
+            TrackSheet.fromEvents(events)
 
         then:
             def e = thrown(BucketMutationException)
@@ -64,12 +64,12 @@ class BucketSpec extends Specification {
             def bucketId = UUID.randomUUID()
             def events = []
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(5.0)))
-            events.add(BucketCreatedEvent.createEvent(bucketId))
+            events.add(TrackSheetCreatedEvent.createEvent(bucketId))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(15.0)))
             events.add(MoneyTransferredEvent.createEvent(bucketId, Money.of(60.0)))
 
         when:
-            Bucket.fromEvents(events)
+            TrackSheet.fromEvents(events)
 
         then:
             def e = thrown(BucketMutationException)
@@ -81,11 +81,11 @@ class BucketSpec extends Specification {
             def bucketId = UUID.randomUUID()
             def bucketId2 = UUID.randomUUID()
             def events = []
-            events.add(BucketCreatedEvent.createEvent(bucketId))
+            events.add(TrackSheetCreatedEvent.createEvent(bucketId))
             events.add(MoneyTransferredEvent.createEvent(bucketId2, Money.of(5.0)))
 
         when:
-            Bucket.fromEvents(events)
+            TrackSheet.fromEvents(events)
 
         then:
             def e = thrown(BucketMutationException)

@@ -2,7 +2,7 @@ package com.bsjhx.cashflow.application.bucket.command;
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore;
 import com.bsjhx.cashflow.application.bucket.command.BucketCommands.TransferMoneyCommand;
-import com.bsjhx.cashflow.domain.tracksheet.Bucket;
+import com.bsjhx.cashflow.domain.tracksheet.TrackSheet;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class MoneyTransferCommandHandler {
         var pastEvents = eventStore.loadEvents(transferMoneyCommand.bucketId())
                 .orElseThrow(() -> new IllegalArgumentException("Bucket not found"));
 
-        var bucket = Bucket.fromEvents(pastEvents);
+        var bucket = TrackSheet.fromEvents(pastEvents);
         
         bucket.transfer(transferMoneyCommand.amount());
         

@@ -2,7 +2,7 @@ package com.bsjhx.cashflow.infrastructure.eventstore
 
 import com.bsjhx.cashflow.adapters.outbound.EventStore
 import com.bsjhx.cashflow.domain.tracksheet.Money
-import com.bsjhx.cashflow.domain.tracksheet.event.BucketCreatedEvent
+import com.bsjhx.cashflow.domain.tracksheet.event.TrackSheetCreatedEvent
 import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -26,7 +26,7 @@ class InMemoryEventStoreSpec extends Specification {
         given:
         def bucketId = UUID.randomUUID()
         def events = [
-                BucketCreatedEvent.createEvent(bucketId),
+                TrackSheetCreatedEvent.createEvent(bucketId),
                 MoneyTransferredEvent.createEvent(bucketId, Money.of(10.0))
         ]
 
@@ -43,7 +43,7 @@ class InMemoryEventStoreSpec extends Specification {
         given:
         def bucketId = UUID.randomUUID()
         def events = [
-                BucketCreatedEvent.createEvent(bucketId),
+                TrackSheetCreatedEvent.createEvent(bucketId),
                 MoneyTransferredEvent.createEvent(bucketId, Money.of(10.0))
         ]
 
@@ -74,18 +74,18 @@ class InMemoryEventStoreSpec extends Specification {
         def bucketId2 = UUID.randomUUID()
 
         def events = [
-                BucketCreatedEvent.createEvent(bucketId),
+                TrackSheetCreatedEvent.createEvent(bucketId),
                 MoneyTransferredEvent.createEvent(bucketId, Money.of(10.0))
         ]
 
         def events1 = [
-                BucketCreatedEvent.createEvent(bucketId1),
+                TrackSheetCreatedEvent.createEvent(bucketId1),
                 MoneyTransferredEvent.createEvent(bucketId1, Money.of(15.0)),
                 MoneyTransferredEvent.createEvent(bucketId1, Money.of(30.0)),
         ]
 
         def events2 = [
-                BucketCreatedEvent.createEvent(bucketId2),
+                TrackSheetCreatedEvent.createEvent(bucketId2),
                 MoneyTransferredEvent.createEvent(bucketId2, Money.of(20.0)),
                 MoneyTransferredEvent.createEvent(bucketId2, Money.of(40.0)),
                 MoneyTransferredEvent.createEvent(bucketId2, Money.of(60.0)),

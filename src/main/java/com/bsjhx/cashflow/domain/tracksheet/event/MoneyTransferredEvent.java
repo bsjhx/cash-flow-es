@@ -12,16 +12,16 @@ import java.util.UUID;
 public class MoneyTransferredEvent implements Event {
     
     private final UUID id;
-    private final UUID bucketId;
+    private final UUID trackSheetId;
     private final Money amount;
 
-    private MoneyTransferredEvent(UUID id, UUID bucketId, Money amount) {
+    private MoneyTransferredEvent(UUID id, UUID trackSheetId, Money amount) {
         this.id = id;
-        this.bucketId = bucketId;
+        this.trackSheetId = trackSheetId;
         this.amount = amount;
     }
 
-    public static MoneyTransferredEvent createEvent(UUID bucketId, Money amount) {
-        return new MoneyTransferredEvent(UUID.randomUUID(), bucketId, amount);
+    public static MoneyTransferredEvent createEvent(UUID trackSheetId, Money amount) {
+        return new MoneyTransferredEvent(UUID.randomUUID(), trackSheetId, amount);
     }
 }
