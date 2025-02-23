@@ -1,0 +1,22 @@
+POST {{api_url}}/api/v1/track-sheet/create
+
+> {%
+    client.global.set("trackSheetId", response.body.trackSheetId)
+ %}
+
+###
+GET {{api_url}}/api/v1/track-sheet/all-events/{{trackSheetId}}
+Accept: application/json
+
+###
+POST {{api_url}}/api/v1/track-sheet/transfer
+Content-Type: application/json
+
+{
+  "trackSheetId": "{{trackSheetId}}",
+  "amount": 15000.0
+}
+
+###
+GET {{api_url}}/api/v1/track-sheet/current-balance/{{trackSheetId}}
+Accept: application/json

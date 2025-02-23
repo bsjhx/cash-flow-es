@@ -20,14 +20,14 @@ class CurrentBalanceQueryHandlerTest extends Specification {
     
     def "should return calculated balance"() {
         given:
-            def bucketId = UUID.randomUUID()            
-            eventStore.saveEvents(bucketId, [
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(50.0)),
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(-25.0)),
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(100.0)),
-                    MoneyTransferredEvent.createEvent(bucketId, Money.of(75.0)),
+            def trackSheetId = UUID.randomUUID()            
+            eventStore.saveEvents(trackSheetId, [
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(50.0)),
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(-25.0)),
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(100.0)),
+                    MoneyTransferredEvent.createEvent(trackSheetId, Money.of(75.0)),
             ])
-        def query = new CurrentBalanceQuery(bucketId)
+        def query = new CurrentBalanceQuery(trackSheetId)
         
         when:
             def actual = balanceQueryHandler.getCurrentBalance(query)

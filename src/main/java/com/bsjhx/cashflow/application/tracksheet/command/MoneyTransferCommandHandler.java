@@ -14,14 +14,14 @@ public class MoneyTransferCommandHandler {
 
     public void handle(TransferMoneyCommand transferMoneyCommand) {
         var pastEvents = eventStore.loadEvents(transferMoneyCommand.trackSheetId())
-                .orElseThrow(() -> new IllegalArgumentException("Bucket not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Track sheet not found"));
 
-        var bucket = TrackSheet.fromEvents(pastEvents);
+        var trackSheet = TrackSheet.fromEvents(pastEvents);
         
-        bucket.transfer(transferMoneyCommand.amount());
+        trackSheet.transfer(transferMoneyCommand.amount());
         
-        eventStore.saveEvents(bucket.getId(), bucket.getUncommittedEvents());
-        bucket.markChangesAsCommitted();
+        eventStore.saveEvents(trackSheet.getId(), trackSheet.getUncommittedEvents());
+        trackSheet.markChangesAsCommitted();
     }
 
 }

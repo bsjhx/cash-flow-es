@@ -1,12 +1,12 @@
 package com.bsjhx.cashflow.adapters.inbound.rest;
 
 import com.bsjhx.cashflow.adapters.inbound.rest.request.TransferMoneyRequest;
-import com.bsjhx.cashflow.adapters.inbound.rest.response.BucketIdResponse;
+import com.bsjhx.cashflow.adapters.inbound.rest.response.TrackSheetIdIdResponse;
 import com.bsjhx.cashflow.adapters.outbound.EventStore;
 import com.bsjhx.cashflow.application.tracksheet.command.TrackSheetCommands.OpenTrackSheetCommand;
 import com.bsjhx.cashflow.application.tracksheet.command.TrackSheetCommands.TransferMoneyCommand;
 import com.bsjhx.cashflow.application.tracksheet.command.MoneyTransferCommandHandler;
-import com.bsjhx.cashflow.application.tracksheet.command.OpenBucketCommandHandler;
+import com.bsjhx.cashflow.application.tracksheet.command.OpenTrackSheetCommandHandler;
 import com.bsjhx.cashflow.application.tracksheet.query.CurrentBalanceQuery;
 import com.bsjhx.cashflow.application.tracksheet.query.CurrentBalanceQueryHandler;
 import com.bsjhx.cashflow.domain.tracksheet.Money;
@@ -18,39 +18,39 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/bucket")
+@RequestMapping("/v1/track-sheet")
 @AllArgsConstructor
-public class BucketController {
+public class TrackSheetController {
     
-    private final OpenBucketCommandHandler openBucketCommandHandler;
+    private final OpenTrackSheetCommandHandler openTrackSheetCommandHandler;
     private final MoneyTransferCommandHandler moneyTransferCommandHandler;
     private final CurrentBalanceQueryHandler currentBalanceQueryHandler;
     private final EventStore eventStore;
     
     @PostMapping("/create")
-    public BucketIdResponse createBucket() {
-        var createNewBucketCommand = new OpenTrackSheetCommand(UUID.randomUUID());
-        openBucketCommandHandler.handle(createNewBucketCommand);
+    public TrackSheetIdIdResponse createTrackSheet() {
+        var openTrackSheetCommand = new OpenTrackSheetCommand(UUID.randomUUID());
+        openTrackSheetCommandHandler.handle(openTrackSheetCommand);
         
-        return new BucketIdResponse(createNewBucketCommand.trackSheetId());
+        return new TrackSheetIdIdResponse(openTrackSheetCommand.trackSheetId());
     }
 
     @PostMapping("/transfer")
-    public BucketIdResponse transferCash(@RequestBody TransferMoneyRequest request) {
-        var transferMoneyCommand = new TransferMoneyCommand(request.bucketId(), request.amount());
+    public TrackSheetIdIdResponse transferCash(@RequestBody TransferMoneyRequest request) {
+        var transferMoneyCommand = new TransferMoneyCommand(request.trackSheetId(), request.amount());
         moneyTransferCommandHandler.handle(transferMoneyCommand);
 
-        return new BucketIdResponse(transferMoneyCommand.trackSheetId());
+        return new TrackSheetIdIdResponse(transferMoneyCommand.trackSheetId());
     }
     
-    @GetMapping("/all-events/{bucketId}")
-    public List<Event> getAllEvents(@PathVariable UUID bucketId) {
-        return eventStore.loadEvents(bucketId).orElseThrow(() -> new IllegalArgumentException("not found"));
+    @GetMapping("/all-events/{trackSheetId}")
+    public List<Event> getAllEvents(@PathVariable UUID trackSheetId) {
+        return eventStore.loadEvents(trackSheetId).orElseThrow(() -> new IllegalArgumentException("not found"));
     }
 
-    @GetMapping("/current-balance/{bucketId}")
-    public Money getCurrentBalance(@PathVariable UUID bucketId) {
-        var query = new CurrentBalanceQuery(bucketId);
+    @GetMapping("/current-balance/{trackSheetId}")
+    public Money getCurrentBalance(@PathVariable UUID trackSheetId) {
+        var query = new CurrentBalanceQuery(trackSheetId);
         return currentBalanceQueryHandler.getCurrentBalance(query);
     }
 }

@@ -19,28 +19,28 @@ class MoneyTransferCommandHandlerSpec extends Specification {
     private MoneyTransferCommandHandler commandHandler
 
     @Autowired
-    private OpenBucketCommandHandler openBucketCommandHandler
+    private OpenTrackSheetCommandHandler openTrackSheetCommandHandler
 
     @SpringSpy
     private EventStore eventStore
 
     def "should transfer money"() {
         given:
-            def bucketId = UUID.randomUUID()
-            def openBucketCommand = new OpenTrackSheetCommand(bucketId)
-            openBucketCommandHandler.handle(openBucketCommand)
+            def trackSheetId = UUID.randomUUID()
+            def openTrackSheetCommand = new OpenTrackSheetCommand(trackSheetId)
+            openTrackSheetCommandHandler.handle(openTrackSheetCommand)
 
         when:
-            commandHandler.handle(new TransferMoneyCommand(bucketId, 5.0))
-            commandHandler.handle(new TransferMoneyCommand(bucketId, 15.0))
-            commandHandler.handle(new TransferMoneyCommand(bucketId, 70.0))
-            commandHandler.handle(new TransferMoneyCommand(bucketId, -50.0))
+            commandHandler.handle(new TransferMoneyCommand(trackSheetId, 5.0))
+            commandHandler.handle(new TransferMoneyCommand(trackSheetId, 15.0))
+            commandHandler.handle(new TransferMoneyCommand(trackSheetId, 70.0))
+            commandHandler.handle(new TransferMoneyCommand(trackSheetId, -50.0))
         
         then:
-            4 * eventStore.loadEvents(bucketId)
-            4 * eventStore.saveEvents(bucketId, _)
+            4 * eventStore.loadEvents(trackSheetId)
+            4 * eventStore.saveEvents(trackSheetId, _)
 
-            def eventsMaybe = eventStore.loadEvents(bucketId)
+            def eventsMaybe = eventStore.loadEvents(trackSheetId)
             eventsMaybe.isPresent()
             def events = eventsMaybe.get()
             events.size() == 5
@@ -48,15 +48,15 @@ class MoneyTransferCommandHandlerSpec extends Specification {
             Money.of(5.0 + 15.0 + 70.0 - 50.0) == actual.balance
     }
 
-    def "should throw exception for not existing bucket"() {
+    def "should throw exception for not existing track sheet"() {
         given:
-            def bucketId = UUID.randomUUID()
+            def trackSheetId = UUID.randomUUID()
 
         when:
-            commandHandler.handle(new TransferMoneyCommand(bucketId, 5.0))
+            commandHandler.handle(new TransferMoneyCommand(trackSheetId, 5.0))
 
         then:
             def exception = thrown(IllegalArgumentException)
-            exception.message == "Bucket not found"
+            exception.message == "Track sheet not found"
     }
 }

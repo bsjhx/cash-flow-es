@@ -10,15 +10,15 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class OpenBucketCommandHandler {
+public class OpenTrackSheetCommandHandler {
 
     private final EventStore eventStore;
 
-    public void handle(OpenTrackSheetCommand openBucketCommand) {
-        var pastEvents = eventStore.loadEvents(openBucketCommand.trackSheetId()).orElse(List.of());
-        var newBucket = TrackSheet.createNew(openBucketCommand.trackSheetId(), pastEvents);
+    public void handle(OpenTrackSheetCommand openTrackSheetCommand) {
+        var pastEvents = eventStore.loadEvents(openTrackSheetCommand.trackSheetId()).orElse(List.of());
+        var newTrackSheet = TrackSheet.createNew(openTrackSheetCommand.trackSheetId(), pastEvents);
         
-        eventStore.saveEvents(newBucket.getId(), newBucket.getUncommittedEvents());
-        newBucket.markChangesAsCommitted();
+        eventStore.saveEvents(newTrackSheet.getId(), newTrackSheet.getUncommittedEvents());
+        newTrackSheet.markChangesAsCommitted();
     }
 }

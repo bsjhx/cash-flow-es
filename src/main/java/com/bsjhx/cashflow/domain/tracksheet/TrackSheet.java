@@ -1,7 +1,7 @@
 package com.bsjhx.cashflow.domain.tracksheet;
 
-import com.bsjhx.cashflow.domain.tracksheet.exception.BucketExceptionReasons;
-import com.bsjhx.cashflow.domain.tracksheet.exception.BucketMutationException;
+import com.bsjhx.cashflow.domain.tracksheet.exception.TrackSheetExceptionReasons;
+import com.bsjhx.cashflow.domain.tracksheet.exception.TrackSheetMutationException;
 import com.bsjhx.cashflow.domain.common.Event;
 import com.bsjhx.cashflow.domain.tracksheet.event.TrackSheetCreatedEvent;
 import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent;
@@ -25,38 +25,38 @@ public class TrackSheet {
     }
 
     public static TrackSheet fromEvents(List<Event> events) {
-        var bucket = new TrackSheet(null, null);
+        var trackSheet = new TrackSheet(null, null);
 
         for (Event event : events) {
-            bucket = bucket.mutate(event);
+            trackSheet = trackSheet.mutate(event);
         }
 
-        return bucket;
+        return trackSheet;
     }
 
-    public static TrackSheet createNew(UUID bucketId, List<Event> events) {
-        var bucket = fromEvents(events);
-        var event = TrackSheetCreatedEvent.createEvent(bucketId);
-        bucket = bucket.mutate(event);
-        bucket.uncommittedEvents.add(event);
+    public static TrackSheet createNew(UUID trackSheetId, List<Event> events) {
+        var trackSheet = fromEvents(events);
+        var event = TrackSheetCreatedEvent.createEvent(trackSheetId);
+        trackSheet = trackSheet.mutate(event);
+        trackSheet.uncommittedEvents.add(event);
         
-        return bucket;
+        return trackSheet;
     }
 
     private TrackSheet mutate(Event event) {
         switch (event) {
-            case TrackSheetCreatedEvent bucketCreatedEvent -> {
+            case TrackSheetCreatedEvent trackSheetCreatedEvent -> {
                 if (this.id != null) {
-                    throw new BucketMutationException(BucketExceptionReasons.BUCKET_ALREADY_OPENED);
+                    throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_ALREADY_OPENED);
                 }
-                return new TrackSheet(bucketCreatedEvent.getTrackSheetId(), Money.of(0.0));
+                return new TrackSheet(trackSheetCreatedEvent.getTrackSheetId(), Money.of(0.0));
             }
             case MoneyTransferredEvent moneyTransferredEvent -> {
                 if (this.id == null) {
-                    throw new BucketMutationException(BucketExceptionReasons.BUCKET_NOT_OPENED);
+                    throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_NOT_OPENED);
                 }
                 if (this.id != moneyTransferredEvent.getTrackSheetId()) {
-                    throw new BucketMutationException(BucketExceptionReasons.BUCKET_ID_NOT_MATCHED); 
+                    throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_ID_NOT_MATCHED); 
                 }
                 return new TrackSheet(this.id, this.balance.add(moneyTransferredEvent.getAmount()));
             }
