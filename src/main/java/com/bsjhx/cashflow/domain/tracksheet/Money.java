@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public class Money {
+public final class Money {
     
     private final Double amount;
 

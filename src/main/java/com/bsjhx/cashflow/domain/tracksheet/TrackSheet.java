@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-public class TrackSheet {
+public final class TrackSheet {
 
     private final UUID id;
     private final Money balance;
