@@ -8,17 +8,17 @@ import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
-public class TrackSheetCreatedEvent implements Event {
+public final class TrackSheetCreatedEvent implements Event {
 
     private final UUID id;
     private final UUID trackSheetId;
 
-    private TrackSheetCreatedEvent(UUID trackSheetId) {
+    private TrackSheetCreatedEvent(final UUID trackSheetId) {
         this.id = UUID.randomUUID();
         this.trackSheetId = trackSheetId;
     }
     
-    public static TrackSheetCreatedEvent createEvent(UUID trackSheetId) {
+    public static TrackSheetCreatedEvent createEvent(final UUID trackSheetId) {
         return new TrackSheetCreatedEvent(trackSheetId);
     }
 }

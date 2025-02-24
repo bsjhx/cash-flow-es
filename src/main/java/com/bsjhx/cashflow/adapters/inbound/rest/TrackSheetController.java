@@ -36,7 +36,7 @@ public class TrackSheetController {
     }
 
     @PostMapping("/transfer")
-    public TrackSheetIdIdResponse transferCash(@RequestBody TransferMoneyRequest request) {
+    public TrackSheetIdIdResponse transferCash(@RequestBody final TransferMoneyRequest request) {
         var transferMoneyCommand = new TransferMoneyCommand(request.trackSheetId(), request.amount());
         moneyTransferCommandHandler.handle(transferMoneyCommand);
 
@@ -44,12 +44,12 @@ public class TrackSheetController {
     }
     
     @GetMapping("/all-events/{trackSheetId}")
-    public List<Event> getAllEvents(@PathVariable UUID trackSheetId) {
+    public List<Event> getAllEvents(@PathVariable final UUID trackSheetId) {
         return eventStore.loadEvents(trackSheetId).orElseThrow(() -> new IllegalArgumentException("not found"));
     }
 
     @GetMapping("/current-balance/{trackSheetId}")
-    public Money getCurrentBalance(@PathVariable UUID trackSheetId) {
+    public Money getCurrentBalance(@PathVariable final UUID trackSheetId) {
         var query = new CurrentBalanceQuery(trackSheetId);
         return currentBalanceQueryHandler.getCurrentBalance(query);
     }

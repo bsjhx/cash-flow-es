@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class CurrentBalanceProjection {
 
-    public Money getCurrentBalance(List<Event> events) {
+    public Money getCurrentBalance(final List<Event> events) {
         var currentBalance = Money.zero();
 
         for (Event event : events) {

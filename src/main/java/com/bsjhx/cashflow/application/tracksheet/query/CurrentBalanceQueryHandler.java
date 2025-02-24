@@ -15,7 +15,7 @@ public class CurrentBalanceQueryHandler {
 
     private final EventStore eventStore;
 
-    public Money getCurrentBalance(CurrentBalanceQuery query) {
+    public Money getCurrentBalance(final CurrentBalanceQuery query) {
         List<Event> events = eventStore.loadEvents(query.trackSheetId())
                 .orElseThrow(() -> new IllegalArgumentException("Track sheet not found"));
         var currentBalanceProjection = new CurrentBalanceProjection();

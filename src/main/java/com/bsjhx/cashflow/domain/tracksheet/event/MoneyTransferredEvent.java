@@ -9,19 +9,19 @@ import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
-public class MoneyTransferredEvent implements Event {
+public final class MoneyTransferredEvent implements Event {
     
     private final UUID id;
     private final UUID trackSheetId;
     private final Money amount;
 
-    private MoneyTransferredEvent(UUID id, UUID trackSheetId, Money amount) {
+    private MoneyTransferredEvent(final UUID id, final UUID trackSheetId, final Money amount) {
         this.id = id;
         this.trackSheetId = trackSheetId;
         this.amount = amount;
     }
 
-    public static MoneyTransferredEvent createEvent(UUID trackSheetId, Money amount) {
+    public static MoneyTransferredEvent createEvent(final UUID trackSheetId, final Money amount) {
         return new MoneyTransferredEvent(UUID.randomUUID(), trackSheetId, amount);
     }
 }
