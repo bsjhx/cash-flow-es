@@ -1,5 +1,6 @@
 package com.bsjhx.cashflow.domain.tracksheet;
 
+import com.bsjhx.cashflow.domain.common.UserId;
 import com.bsjhx.cashflow.domain.tracksheet.exception.TrackSheetExceptionReasons;
 import com.bsjhx.cashflow.domain.tracksheet.exception.TrackSheetMutationException;
 import com.bsjhx.cashflow.domain.common.Event;
@@ -7,6 +8,7 @@ import com.bsjhx.cashflow.domain.tracksheet.event.TrackSheetCreatedEvent;
 import com.bsjhx.cashflow.domain.tracksheet.event.MoneyTransferredEvent;
 import lombok.Getter;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +17,8 @@ import java.util.UUID;
 public final class TrackSheet {
 
     private final UUID id;
+    private final UserId userId = null;
+    private final Instant createdAt;
     private final Money balance;
 
     private final List<Event> uncommittedEvents = new ArrayList<>();
@@ -22,6 +26,7 @@ public final class TrackSheet {
     private TrackSheet(final UUID id, final Money balance) {
         this.id = id;
         this.balance = balance;
+        this.createdAt = Instant.now();
     }
 
     public static TrackSheet fromEvents(final List<Event> events) {
