@@ -6,7 +6,7 @@ import com.bsjhx.cashflow.adapters.outbound.EventStore;
 import com.bsjhx.cashflow.application.tracksheet.command.TrackSheetCommands.OpenTrackSheetCommand;
 import com.bsjhx.cashflow.application.tracksheet.command.TrackSheetCommands.TransferMoneyCommand;
 import com.bsjhx.cashflow.application.tracksheet.command.MoneyTransferCommandHandler;
-import com.bsjhx.cashflow.application.tracksheet.command.OpenTrackSheetCommandHandler;
+import com.bsjhx.cashflow.application.tracksheet.command.CreateTrackSheetCommandHandler;
 import com.bsjhx.cashflow.application.tracksheet.query.CurrentBalanceQuery;
 import com.bsjhx.cashflow.application.tracksheet.query.CurrentBalanceQueryHandler;
 import com.bsjhx.cashflow.domain.tracksheet.Money;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TrackSheetController {
     
-    private final OpenTrackSheetCommandHandler openTrackSheetCommandHandler;
+    private final CreateTrackSheetCommandHandler openTrackSheetCommandHandler;
     private final MoneyTransferCommandHandler moneyTransferCommandHandler;
     private final CurrentBalanceQueryHandler currentBalanceQueryHandler;
     private final EventStore eventStore;

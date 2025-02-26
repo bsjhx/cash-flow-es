@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class OpenTrackSheetCommandHandler {
+public class CreateTrackSheetCommandHandler {
 
     private final EventStore eventStore;
 

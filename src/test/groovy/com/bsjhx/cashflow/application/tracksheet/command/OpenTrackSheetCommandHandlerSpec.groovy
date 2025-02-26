@@ -17,7 +17,7 @@ class OpenTrackSheetCommandHandlerSpec extends Specification {
 
     @Subject
     @Autowired
-    private OpenTrackSheetCommandHandler commandHandler
+    private CreateTrackSheetCommandHandler commandHandler
 
     @SpringSpy
     private EventStore eventStore

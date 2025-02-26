@@ -19,7 +19,7 @@ class MoneyTransferCommandHandlerSpec extends Specification {
     private MoneyTransferCommandHandler commandHandler
 
     @Autowired
-    private OpenTrackSheetCommandHandler openTrackSheetCommandHandler
+    private CreateTrackSheetCommandHandler openTrackSheetCommandHandler
 
     @SpringSpy
     private EventStore eventStore

@@ -1,6 +1,5 @@
 package com.bsjhx.cashflow.domain.tracksheet;
 
-import com.bsjhx.cashflow.domain.common.UserId;
 import com.bsjhx.cashflow.domain.tracksheet.exception.TrackSheetExceptionReasons;
 import com.bsjhx.cashflow.domain.tracksheet.exception.TrackSheetMutationException;
 import com.bsjhx.cashflow.domain.common.Event;
@@ -17,20 +16,23 @@ import java.util.UUID;
 public final class TrackSheet {
 
     private final UUID id;
-    private final UserId userId = null;
     private final Instant createdAt;
     private final Money balance;
 
     private final List<Event> uncommittedEvents = new ArrayList<>();
 
-    private TrackSheet(final UUID id, final Money balance) {
+    private TrackSheet() {
+        this(null, null, null);
+    }
+    
+    private TrackSheet(final UUID id, final Instant createdAt, final Money balance) {
         this.id = id;
         this.balance = balance;
-        this.createdAt = Instant.now();
+        this.createdAt = createdAt;
     }
 
     public static TrackSheet fromEvents(final List<Event> events) {
-        var trackSheet = new TrackSheet(null, null);
+        var trackSheet = new TrackSheet();
 
         for (Event event : events) {
             trackSheet = trackSheet.mutate(event);
@@ -40,7 +42,7 @@ public final class TrackSheet {
     }
 
     public static TrackSheet createNew(final UUID trackSheetId, final List<Event> events) {
-        var trackSheet = fromEvents(events);
+        var trackSheet = TrackSheet.fromEvents(events);
         var event = TrackSheetCreatedEvent.createEvent(trackSheetId);
         trackSheet = trackSheet.mutate(event);
         trackSheet.uncommittedEvents.add(event);
@@ -54,12 +56,8 @@ public final class TrackSheet {
                 if (this.id != null) {
                     throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_ALREADY_OPENED);
                 }
-                return new TrackSheet(trackSheetCreatedEvent.getTrackSheetId(), Money.of(0.0));
+                return new TrackSheet(trackSheetCreatedEvent.getTrackSheetId(), trackSheetCreatedEvent.getCreatedAt(), Money.of(0.0));
             }
-            
-            
-            
-            
             case MoneyTransferredEvent moneyTransferredEvent -> {
                 if (this.id == null) {
                     throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_NOT_OPENED);
@@ -67,7 +65,7 @@ public final class TrackSheet {
                 if (this.id != moneyTransferredEvent.getTrackSheetId()) {
                     throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_ID_NOT_MATCHED); 
                 }
-                return new TrackSheet(this.id, this.balance.add(moneyTransferredEvent.getAmount()));
+                return new TrackSheet(this.id, this.createdAt, this.balance.add(moneyTransferredEvent.getAmount()));
             }
             default -> throw new IllegalStateException("Event does not exist: " + event);
         }
