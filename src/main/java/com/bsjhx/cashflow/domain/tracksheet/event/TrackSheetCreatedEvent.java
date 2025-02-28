@@ -11,16 +11,13 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public final class TrackSheetCreatedEvent extends Event {
 
-    private final UUID id;
     private final UUID trackSheetId;
 
-    private TrackSheetCreatedEvent(final Instant createdAt, final UUID trackSheetId) {
-        super(createdAt);
-        this.id = UUID.randomUUID();
+    private TrackSheetCreatedEvent(final UUID trackSheetId) {
         this.trackSheetId = trackSheetId;
     }
     
     public static TrackSheetCreatedEvent createEvent(final UUID trackSheetId) {
-        return new TrackSheetCreatedEvent(Instant.now(), trackSheetId);
+        return new TrackSheetCreatedEvent(trackSheetId);
     }
 }
