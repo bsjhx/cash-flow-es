@@ -1,13 +1,11 @@
 package com.bsjhx.cashflow.domain.tracksheet;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Value;
 
-@Getter
-@EqualsAndHashCode
-public final class Money {
+@Value
+public class Money {
     
-    private final Double amount;
+    Double amount;
 
     private Money(final Double amount) {
         this.amount = amount;
