@@ -72,7 +72,7 @@ public final class TrackSheet {
         }
         return new TrackSheet(
                 trackSheetCreatedEvent.getTrackSheetId(),
-                trackSheetCreatedEvent.getCreatedAt(),
+                trackSheetCreatedEvent.getEmittedAt(),
                 Money.of(0.0),
                 new ArrayList<>(),
                 null
@@ -96,10 +96,19 @@ public final class TrackSheet {
     }
     
     private TrackSheet handlePeriodStartedEvent(PeriodStartedEvent periodStartedEvent) {
+        if (null != this.currentPeriod) {
+            throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_IS_IN_ACTIVE_PERIOD);
+        }
+        
+        
+        
         throw new IllegalStateException("Not yet implemented");
     }
     
     private TrackSheet handlePeriodFinishedEvent(PeriodFinishedEvent periodFinishedEvent) {
+        if (null == this.currentPeriod) {
+            throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_IS_NOT_IN_ACTIVE_PERIOD);
+        }
         throw new IllegalStateException("Not yet implemented");
     }
 

@@ -11,10 +11,10 @@ import java.util.UUID;
 public abstract class Event {
     
     private final UUID id;
-    private final Instant createdAt;
+    private final Instant emittedAt;
 
     public Event() {
-        this.createdAt = Instant.now();
+        this.emittedAt = Instant.now();
         this.id = UUID.randomUUID();
     }
 }
