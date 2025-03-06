@@ -95,21 +95,34 @@ public final class TrackSheet {
         );
     }
     
-    private TrackSheet handlePeriodStartedEvent(PeriodStartedEvent periodStartedEvent) {
+    private TrackSheet handlePeriodStartedEvent(final PeriodStartedEvent periodStartedEvent) {
         if (null != this.currentPeriod) {
             throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_IS_IN_ACTIVE_PERIOD);
         }
-        
-        
-        
-        throw new IllegalStateException("Not yet implemented");
+
+        return new TrackSheet(
+                this.id,
+                this.createdAt,
+                this.balance,
+                this.finishedPeriods,
+                Period.of(periodStartedEvent.getName())
+        );
     }
     
-    private TrackSheet handlePeriodFinishedEvent(PeriodFinishedEvent periodFinishedEvent) {
+    private TrackSheet handlePeriodFinishedEvent(final PeriodFinishedEvent periodFinishedEvent) {
         if (null == this.currentPeriod) {
             throw new TrackSheetMutationException(TrackSheetExceptionReasons.TRACK_SHEET_IS_NOT_IN_ACTIVE_PERIOD);
         }
-        throw new IllegalStateException("Not yet implemented");
+        
+        this.finishedPeriods.add(this.currentPeriod);
+
+        return new TrackSheet(
+                this.id,
+                this.createdAt,
+                this.balance,
+                this.finishedPeriods,
+                null
+        );
     }
 
     public void transfer(final Double amount) {
